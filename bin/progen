@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "thor"
+require "terminal-color"
+
+lib_dir = File.join(File.dirname(__FILE__), "..", "lib")
+Dir["#{lib_dir}/*.rb"].each { |f| require f }
+
+class Progen < Thor
+  package_name "Project Generator"
+
+  PROJECTMAP = {ruby: Ruby}
+
+  desc "gen TYPE", "generate project structure"
+  method_option "type", :aliases => "-t", :desc => "type of the project"
+  def gen(folder)
+    if File.exists? folder
+      puts "destination folder '#{folder}' already exists".red
+      return
+    end
+
+    type = (options[:type] || :ruby).to_sym
+    unless PROJECTMAP.include? type
+      puts "Project type not supported yet".red
+    else
+      PROJECTMAP[type].new.generate(folder)
+      puts "Project files and directories created".green
+    end
+  end
+end
+
+Progen.start

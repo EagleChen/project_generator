@@ -1,0 +1,12 @@
+GEM
+  remote: http://ruby.taobao.org/
+  specs:
+    terminal-color (0.1.0)
+    thor (0.19.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  terminal-color
+  thor
